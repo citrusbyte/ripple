@@ -1,4 +1,4 @@
-# `ripple`: Riak Document Models [![Build Status](https://secure.travis-ci.org/basho/ripple.png)](http://travis-ci.org/basho/ripple)
+# `ripple`: Riak Document Models [![Build Status](https://secure.travis-ci.org/citrusbyte/ripple.png)](http://travis-ci.org/citrusbyte/ripple)
 
 `ripple` is a rich Ruby modeling layer for Riak, Basho's distributed
 database that contains an ActiveModel-based document abstraction which
@@ -131,11 +131,11 @@ production:
 
 ## How to Contribute
 
-* Fork the project on [Github](http://github.com/basho/ripple).  If you have already forked, use `git pull --rebase` to reapply your changes on top of the mainline. Example:
+* Fork the project on [Github](http://github.com/citrusbyte/ripple).  If you have already forked, use `git pull --rebase` to reapply your changes on top of the mainline. Example:
 
     ``` bash
     $ git checkout master
-    $ git pull --rebase basho master
+    $ git pull --rebase citrusbyte master
     ```
 * Create a topic branch. If you've already created a topic branch, rebase it on top of changes from the mainline "master" branch. Examples:
   * New branch:
