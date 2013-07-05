@@ -13,10 +13,11 @@ require 'ripple/associations/one_embedded_proxy'
 require 'ripple/associations/many_embedded_proxy'
 require 'ripple/associations/one_linked_proxy'
 require 'ripple/associations/many_linked_proxy'
+require 'ripple/associations/one_stored_key_proxy'
 require 'ripple/associations/many_stored_key_proxy'
 require 'ripple/associations/one_key_proxy'
-require 'ripple/associations/one_stored_key_proxy'
 require 'ripple/associations/many_reference_proxy'
+require 'ripple/associations/one_inverse_proxy'
 
 module Ripple
   # Adds associations via links and embedding to {Ripple::Document}
@@ -196,6 +197,7 @@ module Ripple
     attr_reader :type, :name, :options
 
     # association options :using, :class_name, :class, :extend, :foreign_key
+    # association options :using, :class_name, :class, :extend, :foreign_key, :inverse
     # options that may be added :validate
 
     def initialize(type, name, options={})
