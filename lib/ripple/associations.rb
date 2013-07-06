@@ -18,6 +18,7 @@ require 'ripple/associations/many_stored_key_proxy'
 require 'ripple/associations/one_key_proxy'
 require 'ripple/associations/many_reference_proxy'
 require 'ripple/associations/one_inverse_proxy'
+require 'ripple/associations/many_inverse_proxy'
 
 module Ripple
   # Adds associations via links and embedding to {Ripple::Document}
