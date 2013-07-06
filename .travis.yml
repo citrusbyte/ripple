@@ -1,7 +1,7 @@
 gemfile:
-  - Gemfile.rails30
   - Gemfile.rails31
   - Gemfile.rails32
+  - Gemfile.rails40
 rvm:
   - 1.9.3
   - 2.0.0
