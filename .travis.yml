@@ -1,5 +1,4 @@
 gemfile:
-  - Gemfile.rails30
   - Gemfile.rails31
   - Gemfile.rails32
 rvm:
