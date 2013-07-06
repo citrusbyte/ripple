@@ -49,7 +49,9 @@ module Ripple
       end
 
       def keys
-        @keys ||= Ripple.client.search(klass.bucket_name, "#{key_name}: #{@owner.key}")["response"]["docs"].inject(Set.new) do |set, search_document|
+        response = Ripple.client.search(klass.bucket_name, "#{key_name}: #{@owner.key}")
+        response = response['response'] if response.has_key? 'response'
+        @keys ||= response["docs"].inject(Set.new) do |set, search_document|
           set << search_document["id"]
         end
       end
