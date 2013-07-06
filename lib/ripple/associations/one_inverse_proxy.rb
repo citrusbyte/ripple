@@ -21,10 +21,6 @@ module Ripple
 
       protected
 
-      def key
-        @owner.send(key_name)
-      end
-
       def assign_key(value)
         value.send("#{key_name}=", owner.key)
       end
@@ -40,7 +36,7 @@ module Ripple
           @foreign_key = foreign_association && foreign_association.options[:foreign_key]
         end
 
-        @foreign_key || "#{ActiveSupport::Inflector.singularize(owner.class.to_s.downcase)}_key"
+        @foreign_key || "#{owner.class.to_s.downcase.singularize}_key"
       end
 
       def find_target

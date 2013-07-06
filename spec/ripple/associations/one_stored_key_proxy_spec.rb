@@ -75,6 +75,11 @@ describe Ripple::Associations::OneStoredKeyProxy do
       @president = User.create(email: 'president@internet.com')
     end
 
+    after do
+      Country.destroy_all
+      User.destroy_all
+    end
+
     it "should accept a foreign key to create an association" do
       country = Country.create(name: 'Internet', president_user_id: @president.key)
 
