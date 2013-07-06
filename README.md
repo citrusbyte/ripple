@@ -1,4 +1,7 @@
-# `ripple`: Riak Document Models [![Build Status](https://secure.travis-ci.org/citrusbyte/ripple.png)](http://travis-ci.org/citrusbyte/ripple) [![Code Climate](https://codeclimate.com/github/citrusbyte/ripple.png)](https://codeclimate.com/github/citrusbyte/ripple)
+# `ripple`: Riak Document Models 
+[![Gem Version](https://badge.fury.io/rb/ripple.png)](http://badge.fury.io/rb/ripple)
+[![Build Status](https://secure.travis-ci.org/citrusbyte/ripple.png)](http://travis-ci.org/citrusbyte/ripple)
+[![Code Climate](https://codeclimate.com/github/citrusbyte/ripple.png)](https://codeclimate.com/github/citrusbyte/ripple)
 
 `ripple` is a rich Ruby modeling layer for Riak, Basho's distributed
 database that contains an ActiveModel-based document abstraction which
