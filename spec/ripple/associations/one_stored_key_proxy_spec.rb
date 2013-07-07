@@ -84,8 +84,6 @@ describe Ripple::Associations::OneStoredKeyProxy do
       country = Country.create(name: 'Internet', president_user_id: @president.key)
 
       country.president.should == @president
-      # TODO: Write this assert on OneInverseProxy test file
-      @president.president_of.should == country
     end
 
     it "should update foreign key value when updates the association" do
