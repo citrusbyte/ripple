@@ -197,7 +197,6 @@ module Ripple
     include Ripple::Translation
     attr_reader :type, :name, :options
 
-    # association options :using, :class_name, :class, :extend, :foreign_key
     # association options :using, :class_name, :class, :extend, :foreign_key, :inverse
     # options that may be added :validate
 
@@ -207,13 +206,17 @@ module Ripple
 
     def validate!(owner)
       # TODO: Refactor this into an association subclass. See also GH #284
-      if @options[:using] == :stored_key
+      if @options[:using] == :stored_key || @options.has_key?(:foreign_key)
+        @options[:using] = :stored_key # Ensure Proxy class
         unless prop_name = @options[:foreign_key]
           single_name = ActiveSupport::Inflector.singularize(@name.to_s)
           prop_name = "#{single_name}_key"
           prop_name << "s" if many?
         end
-        raise ArgumentError, t('stored_key_requires_property', :name => prop_name) unless owner.properties.include?(prop_name)
+
+        unless owner.properties.include?(prop_name)
+          raise ArgumentError, t('stored_key_requires_property', :name => prop_name)
+        end
       end
     end
 

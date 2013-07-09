@@ -27,6 +27,6 @@ class Country
   property :president_user_id, String, :index => true
   property :citizen_user_ids, Array
 
-  one  :president,:class_name => 'User', :using => :stored_key, :foreign_key => :president_user_id
+  one  :president,:class_name => 'User', :foreign_key => :president_user_id
   many :citizens, :class_name => 'User', :using => :stored_key, :foreign_key => :citizen_user_ids
 end
