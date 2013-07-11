@@ -45,7 +45,7 @@ module Ripple
 
       def reset
         super
-        self.owner_keys = @owner.robject.data ? @owner.robject.data[keys_name] : []
+        self.owner_keys = @owner.robject.data && @owner.robject.data[keys_name] || []
       end
 
       def include?(document)
