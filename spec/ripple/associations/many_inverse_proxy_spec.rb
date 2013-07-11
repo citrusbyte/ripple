@@ -16,6 +16,13 @@ describe Ripple::Associations::ManyInverseProxy do
     @comment.dislikes.should be_empty
   end
 
+  it "should be empty when owner key is not present (object not saved)" do
+    @comment = Comment.new
+
+    @comment.likes.should be_empty
+    @comment.dislikes.should be_empty
+  end
+
   it "should list objects who stored the @comment.key" do
     like = Like.create(liked_comment: @comment)
     @comment.reload

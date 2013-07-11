@@ -42,7 +42,7 @@ module Ripple
       protected
 
       def find_target
-        klass.find_by_index(foreign_key, owner.key) unless owner.key.blank?
+        owner.key.blank? ? [] : klass.find_by_index(foreign_key, owner.key)
       end
 
       def foreign_key
