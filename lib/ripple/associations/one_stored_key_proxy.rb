@@ -7,7 +7,7 @@ module Ripple
       include One
 
       def replace(value)
-        @reflection.verify_type!(value, owner)
+        @_reflection.verify_type!(value, _owner)
 
         if value
           assign_key(value.key)
@@ -15,22 +15,22 @@ module Ripple
           assign_key(nil)
         end
 
-        @target = value
+        @_target = value
         loaded
       end
 
       protected
 
       def key
-        @owner.send(key_name)
+        @_owner.send(key_name)
       end
 
       def assign_key(value)
-        @owner.send("#{key_name}=", value)
+        @_owner.send("#{key_name}=", value)
       end
 
       def key_name
-        @reflection.options[:foreign_key] || "#{@reflection.name}_key"
+        @_reflection.options[:foreign_key] || "#{@_reflection.name}_key"
       end
 
       def find_target

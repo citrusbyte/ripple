@@ -11,9 +11,9 @@ module Ripple
 
       protected
       def instantiate_target(instantiator, attrs={})
-        @target = klass.send(instantiator, attrs)
+        @_target = klass.send(instantiator, attrs)
         loaded
-        @target
+        @_target
       end
     end
   end

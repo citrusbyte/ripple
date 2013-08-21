@@ -7,17 +7,17 @@ module Ripple
 
       def to_ary
         load_target
-        Array === target ? target.to_ary : Array.wrap(target)
+        Array === _target ? _target.to_ary : Array.wrap(_target)
       end
 
       def count
         load_target
-        target.size
+        _target.size
       end
 
       def reset
         super
-        @target = []
+        @_target = []
       end
 
       def <<(value)

@@ -11,13 +11,13 @@ module Ripple
       end
 
       def <<(value)
-        @reflection.verify_type!([value], @owner)
+        @_reflection.verify_type!([value], @_owner)
         associate(value)
         self
       end
 
       def replace(value)
-        @reflection.verify_type!(value, @owner)
+        @_reflection.verify_type!(value, @_owner)
 
         (self - value).each {|doc| disassociate(doc) }
         (value - self).each {|doc| associate(doc) }
@@ -30,43 +30,43 @@ module Ripple
       end
 
       def keys
-        @keys ||= @target.map(&:key)
+        @keys ||= @_target.map(&:key)
       end
 
       def include?(document)
         return false unless document.respond_to?(:robject)
-        return false unless document.robject.bucket.name == @reflection.bucket_name
+        return false unless document.robject.bucket.name == @_reflection.bucket_name
         keys.include?(document.key)
       end
 
       protected
 
       def find_target
-        owner.key.blank? ? [] : klass.find_by_index(foreign_key, owner.key)
+        _owner.key.blank? ? [] : klass.find_by_index(foreign_key, _owner.key)
       end
 
       def foreign_key
         return @foreign_key unless @foreign_key.blank?
 
-        @foreign_key = @reflection.options[:of_key].to_s # The key used to build the association from the other object
+        @foreign_key = @_reflection.options[:of_key].to_s # The key used to build the association from the other object
 
         if @foreign_key.blank?
-          foreign_association = klass.associations[@reflection.options[:of].to_s]
+          foreign_association = klass.associations[@_reflection.options[:of].to_s]
           @foreign_key = foreign_association && foreign_association.options[:foreign_key].to_s
         end
 
-        @foreign_key || "#{owner.class.to_s.downcase.singularize}_keys"
+        @foreign_key || "#{_owner.class.to_s.downcase.singularize}_keys"
       end
 
       # Handle the disassociation between a parent and a child
       # Here is the place to clean keys, destroy objects, etc.
       def disassociate(document)
         document.send("#{foreign_key}=", nil)
-        @target.delete document
+        @_target.delete document
         @keys.delete document.key unless @keys.nil?
 
         # TODO: support cascade_all :delete
-        if @reflection.options[:destroy_on_disassociate]
+        if @_reflection.options[:destroy_on_disassociate]
           document.destroy
         else
           # TODO: support saves
@@ -77,12 +77,12 @@ module Ripple
       def associate(document)
         raise "Unable to associate if the document isn't first saved." if document.new_record?
 
-        document.send("#{foreign_key}=", @owner.key)
+        document.send("#{foreign_key}=", @_owner.key)
         # TODO: support saves
         document.save
 
         load_target
-        @target << document
+        @_target << document
         @keys << document.key unless @keys.nil?
       end
 

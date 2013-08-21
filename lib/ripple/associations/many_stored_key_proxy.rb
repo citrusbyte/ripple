@@ -11,22 +11,22 @@ module Ripple
       end
 
       def <<(value)
-        @reflection.verify_type!([value], @owner)
+        @_reflection.verify_type!([value], @_owner)
 
         raise "Unable to append if the document isn't first saved." if value.new_record?
         load_target
-        @target << value
+        @_target << value
         keys << value.key
 
         self
       end
 
       def replace(value)
-        @reflection.verify_type!(value, @owner)
+        @_reflection.verify_type!(value, @_owner)
 
         reset_owner_keys
         value.each { |doc| self << doc }
-        @target = value
+        @_target = value
         loaded
       end
 
@@ -36,21 +36,21 @@ module Ripple
       end
 
       def keys
-        if @owner.send(keys_name).nil?
+        if @_owner.send(keys_name).nil?
           reset_owner_keys
         end
 
-        @owner.send(keys_name)
+        @_owner.send(keys_name)
       end
 
       def reset
         super
-        self.owner_keys = @owner.robject.data && @owner.robject.data[keys_name] || []
+        self.owner_keys = @_owner.robject.data && @_owner.robject.data[keys_name] || []
       end
 
       def include?(document)
         return false unless document.respond_to?(:robject)
-        return false unless document.robject.bucket.name == @reflection.bucket_name
+        return false unless document.robject.bucket.name == @_reflection.bucket_name
         keys.include?(document.key)
       end
 
@@ -64,11 +64,11 @@ module Ripple
       end
 
       def keys_name
-        (@reflection.options[:foreign_key] || "#{@reflection.name.to_s.singularize}_keys").to_s
+        (@_reflection.options[:foreign_key] || "#{@_reflection.name.to_s.singularize}_keys").to_s
       end
 
       def owner_keys=(new_keys)
-        @owner.send("#{keys_name}=", @owner.class.properties[keys_name].type.new(new_keys))
+        @_owner.send("#{keys_name}=", @_owner.class.properties[keys_name].type.new(new_keys))
       end
     end
   end

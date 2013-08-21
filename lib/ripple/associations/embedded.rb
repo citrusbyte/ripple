@@ -13,14 +13,14 @@ module Ripple
       protected
 
       def lazy_load_validates_associated
-        return if @owner.class.validators_on(@reflection.name).any? {|v| Ripple::Validations::AssociatedValidator === v}
-        @owner.class.validates @reflection.name, :associated => true
+        return if @_owner.class.validators_on(@_reflection.name).any? {|v| Ripple::Validations::AssociatedValidator === v}
+        @_owner.class.validates @_reflection.name, :associated => true
       end
 
       def assign_references(docs)
         Array.wrap(docs).each do |doc|
           next unless doc.respond_to?(:_parent_document=)
-          doc._parent_document = owner
+          doc._parent_document = _owner
         end
       end
 

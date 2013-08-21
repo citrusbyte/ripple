@@ -15,11 +15,11 @@ module Ripple
 
       def <<(value)
         if loaded?
-          new_target = @target.concat(Array.wrap(value))
+          new_target = @_target.concat(Array.wrap(value))
           replace new_target
         else
-          @reflection.verify_type!([value], @owner)
-          @owner.robject.links << value.to_link(@reflection.link_tag)
+          @_reflection.verify_type!([value], @_owner)
+          @_owner.robject.links << value.to_link(@_reflection.link_tag)
           appended_documents << value
           @keys = nil
         end
@@ -29,8 +29,8 @@ module Ripple
 
       def delete(value)
         load_target
-        @target.delete(value)
-        replace @target
+        @_target.delete(value)
+        replace @_target
         self
       end
 

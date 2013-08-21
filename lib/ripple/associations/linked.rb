@@ -5,20 +5,20 @@ module Ripple
   module Associations
     module Linked
       def replace(value)
-        @reflection.verify_type!(value, @owner)
-        @owner.robject.links -= links
+        @_reflection.verify_type!(value, @_owner)
+        @_owner.robject.links -= links
         Array.wrap(value).compact.each do |doc|
-          @owner.robject.links << doc.to_link(@reflection.link_tag)
+          @_owner.robject.links << doc.to_link(@_reflection.link_tag)
         end
         loaded
         @keys = nil
-        @target = value
+        @_target = value
       end
 
       def replace_links(value)
-        @owner.robject.links -= links
+        @_owner.robject.links -= links
         Array(value).each do |link|
-          @owner.robject.links << link
+          @_owner.robject.links << link
         end
         reset
       end
@@ -37,18 +37,18 @@ module Ripple
 
         # TODO: when we allow polymorphic assocations, this will have to change
         #       since @reflection.bucket_name will be '_' in that case.
-        return false unless document.robject.bucket.name == @reflection.bucket_name
+        return false unless document.robject.bucket.name == @_reflection.bucket_name
         keys.include?(document.key)
       end
 
       protected
       def links
-        @owner.robject.links.select(&@reflection.link_filter)
+        @_owner.robject.links.select(&@_reflection.link_filter)
       end
 
       def robjects
         walk_result = begin
-          @owner.robject.walk(*Array(@reflection.link_spec)).first || []
+          @_owner.robject.walk(*Array(@_reflection.link_spec)).first || []
         rescue
           []
         end
@@ -57,7 +57,7 @@ module Ripple
         # since link-walking returns the robjects for the union of all sibling links.
         # Here, we filter out robjects that should not be included.
         walk_result.select do |robject|
-          links.include?(robject.to_link(@reflection.link_tag))
+          links.include?(robject.to_link(@_reflection.link_tag))
         end
       end
     end

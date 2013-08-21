@@ -20,7 +20,7 @@ describe Ripple::Associations::Proxy do
 
   it "should set the target to nil when reset" do
     @proxy.reset
-    @proxy.target.should be_nil
+    @proxy._target.should be_nil
   end
 
   describe "delegation" do
@@ -37,7 +37,7 @@ describe Ripple::Associations::Proxy do
 
     it "should send to the proxy if it responds to the method" do
       @proxy.send(:reset)
-      @proxy.target.should be_nil
+      @proxy._target.should be_nil
     end
 
     it "should send to the target if target responds to the method" do

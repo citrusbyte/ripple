@@ -9,13 +9,13 @@ module Ripple
       include Embedded
 
       def replace(doc)
-        @reflection.verify_type!(doc, @owner)
+        @_reflection.verify_type!(doc, @_owner)
         @_doc = doc.respond_to?(:attributes_for_persistence) ? doc.attributes_for_persistence : doc
         assign_references(doc)
 
-        if doc.is_a?(@reflection.klass)
+        if doc.is_a?(@_reflection.klass)
           loaded
-          @target = doc
+          @_target = doc
         else
           reset
         end

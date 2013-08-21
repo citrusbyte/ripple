@@ -10,29 +10,29 @@ module Ripple
 
       def <<(value)
         values = Array.wrap(value)
-        @reflection.verify_type!(values, @owner)
+        @_reflection.verify_type!(values, @_owner)
 
         values.each {|v| assign_key(v) }
         load_target
-        @target.merge values
+        @_target.merge values
 
         self
       end
 
       def replace(value)
-        @reflection.verify_type!(value, @owner)
+        @_reflection.verify_type!(value, @_owner)
         delete_all
         Array.wrap(value).compact.each do |doc|
           assign_key(doc)
         end
         loaded
         @keys = nil
-        @target = Set.new(value)
+        @_target = Set.new(value)
       end
 
       def delete_all
         load_target
-        @target.each do |e|
+        @_target.each do |e|
           delete(e)
         end
       end
@@ -40,16 +40,16 @@ module Ripple
       def delete(value)
         load_target
         assign_key(value, nil)
-        @target.delete(value)
+        @_target.delete(value)
       end
 
-      def target
+      def _target
         load_target
-        @target.to_a
+        @_target.to_a
       end
 
       def keys
-        response = Ripple.client.search(klass.bucket_name, "#{key_name}: #{@owner.key}")
+        response = Ripple.client.search(klass.bucket_name, "#{key_name}: #{@_owner.key}")
         response = response['response'] if response.has_key? 'response'
         @keys ||= response["docs"].inject(Set.new) do |set, search_document|
           set << search_document["id"]
@@ -64,13 +64,13 @@ module Ripple
       def include?(document)
         return false unless document.class.respond_to?(:bucket_name)
 
-        return false unless document.class.bucket_name == @reflection.bucket_name
+        return false unless document.class.bucket_name == @_reflection.bucket_name
         keys.include?(document.key)
       end
 
       def count
         if loaded?
-          @target.count
+          @_target.count
         else
           keys.count
         end
@@ -82,10 +82,10 @@ module Ripple
       end
 
       def key_name
-        "#{@owner.class.name.underscore}_key"
+        "#{@_owner.class.name.underscore}_key"
       end
 
-      def assign_key(target, key=@owner.key)
+      def assign_key(target, key=@_owner.key)
         if target.new_record?
           target.send("#{key_name}=", key)
         else

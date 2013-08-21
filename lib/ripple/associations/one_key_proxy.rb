@@ -7,34 +7,34 @@ module Ripple
       include One
 
       def replace(doc)
-        @reflection.verify_type!(doc, owner)
+        @_reflection.verify_type!(doc, _owner)
 
         reset_previous_target_key_delegate
         assign_new_target_key_delegate(doc)
 
         loaded
-        @target = doc
+        @_target = doc
       end
 
       def find_target
-        klass.find(owner.key)
+        klass.find(_owner.key)
       end
 
       protected
       def instantiate_target(instantiator, attrs={})
-        @target = super
-        @target.key = owner.key
-        @target
+        @_target = super
+        @_target.key = _owner.key
+        @_target
       end
 
       private
       def reset_previous_target_key_delegate
-        @target.key_delegate = @target if @target
+        @_target.key_delegate = @_target if @_target
       end
 
       def assign_new_target_key_delegate(doc)
         doc.class.send(:include, Ripple::Associations::KeyDelegator) unless doc.class.include?(Ripple::Associations::KeyDelegator)
-        owner.key_delegate = doc.key_delegate = owner
+        _owner.key_delegate = doc.key_delegate = _owner
       end
 
     end
